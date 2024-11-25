@@ -58,10 +58,10 @@ const MedicalShopDashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-100 via-cyan-100 to-blue-200 p-6 text-black">
+    <div className="min-h-screen bg-gradient-to-br bg-neutral-500 p-6 text-black">
       <Toaster />
       <div className="max-w-7xl mx-auto space-y-8">
-      <header className="bg-blue-600 p-4 flex justify-between items-center rounded-lg shadow-md">
+      <header className="bg-neutral-600 p-4 flex justify-between items-center rounded-lg shadow-md">
   <h1 className="text-white text-3xl font-bold">Medical Shop Dashboard</h1>
   <nav className="flex space-x-4">
     <button onClick={toggleMenu} className="text-white text-2xl md:hidden">
@@ -102,11 +102,12 @@ const MedicalShopDashboard = () => {
         <FaUser />
       </button>
       {showProfileMenu && (
-        <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg p-4 w-48">
+        <div className="absolute right-0 mt-2 bg-neutral-200 shadow-lg rounded-lg p-4 w-48">
           <ul>
             <li>
               <button className="py-2 px-4 w-full text-gray-700 hover:bg-gray-200 text-left">
-                Profile
+                <a href="/profile">View Profile</a>
+                
               </button>
             </li>
             <li>
@@ -133,7 +134,7 @@ const MedicalShopDashboard = () => {
         {/* Main Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Customer Details */}
-          <section className="bg-white p-6 rounded-lg shadow-md">
+          <section className="bg-neutral-200 p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold text-blue-800 mb-4">Your Details</h2>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
@@ -152,7 +153,7 @@ const MedicalShopDashboard = () => {
           </section>
 
          {/* Invoice Generation */}
-<section id="invoice" className="bg-white p-6 rounded-lg shadow-md">
+<section id="invoice" className="bg-neutral-200 p-6 rounded-lg shadow-md">
   <h2 className="text-xl font-bold text-blue-800 mb-4">Invoice Generation</h2>
   
   {/* Bill Number Input */}
@@ -192,7 +193,7 @@ const MedicalShopDashboard = () => {
 
 
           {/* Medicine Check */}
-          <section id="medicine-check" className="bg-white p-6 rounded-lg shadow-md">
+          <section id="medicine-check" className="bg-neutral-200 p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold text-blue-800 mb-4">Medicine Check</h2>
             <div className="flex items-center">
               <FaPills className="text-purple-500 text-xl mr-2" />
@@ -210,7 +211,7 @@ const MedicalShopDashboard = () => {
           </section>
 
          {/* Staff Management */}
-<section id="staff-management" className="bg-white p-6 rounded-lg shadow-md">
+<section id="staff-management" className="bg-neutral-200 p-6 rounded-lg shadow-md">
   <h2 className="text-xl font-bold text-blue-800 mb-4">Staff Management</h2>
   
   {/* Staff Management Options */}
@@ -279,7 +280,7 @@ const MedicalShopDashboard = () => {
 
 
           {/* Attendance Management */}
-          <section id="attendance-management" className="bg-white p-6 rounded-lg shadow-md">
+          <section id="attendance-management" className="bg-neutral-200 p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold text-blue-800 mb-4">Staff Attendance</h2>
             
             <div className="space-y-4">
@@ -309,7 +310,7 @@ const MedicalShopDashboard = () => {
           </section>
 
           {/* Calendar */}
-          <section id="calendar" className="bg-white p-6 rounded-lg shadow-md">
+          <section id="calendar" className="bg-neutral-200 p-6 rounded-lg shadow-md">
   <h2 className="text-xl font-bold text-blue-800 mb-4">Calendar</h2>
   <Calendar
     value={currentDate}
@@ -346,7 +347,7 @@ const MedicalShopDashboard = () => {
 
 
           {/* Additional Quick Actions */}
-          <section className="bg-white p-6 rounded-lg shadow-md col-span-1 md:col-span-2">
+          <section className="bg-neutral-200 p-6 rounded-lg shadow-md col-span-1 md:col-span-2">
             <h2 className="text-xl font-bold text-blue-800 mb-4">Quick Actions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <button className="bg-blue-500 text-neutral-800 py-2 px-4 rounded-lg hover:bg-blue-600 flex items-center justify-center">
