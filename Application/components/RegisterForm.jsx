@@ -68,35 +68,35 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center  border-zinc-700 bg-sky-300">
-      <div className="bg-sky-100 p-10 rounded-xl shadow-md w-full max-w-sm">
-        <h1 className="text-2xl font-bold font-serif mb-6 text-center">Register</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-10 rounded-xl shadow-md w-full max-w-sm">
+        <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             onChange={(e) => setName(e.target.value)}
             type="text"
             placeholder="Full Name"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             onChange={(e) => setEmail(e.target.value)}
             type="email"
             placeholder="Email"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             onChange={(e) => setPassword(e.target.value)}
             type="password"
             placeholder="Password"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button className="w-full bg-blue-500 text-white font-bold py-2 rounded-lg hover:bg-blue-600 transition duration-200">
             Register
           </button>
 
 
-          <Link className="text-sm mt-3 text-right text-blue-900 hover:text-red-500" href="/dashboard">
+          <Link className="text-sm mt-3 text-right text-blue-900 hover:text-red-900" href="/dashboard">
             Already have an account? <span className="underline">Login</span>
           </Link>
         </form>
