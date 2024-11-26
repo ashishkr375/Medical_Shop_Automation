@@ -12,13 +12,14 @@ import { BsCheckCircle, BsFillXCircleFill } from "react-icons/bs";
 const MedicalShopDashboard = () => {
   const { data: session } = useSession();
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  
+  
   const [staff, setStaff] = useState([]);
   const [attendance, setAttendance] = useState([]);
-
+  const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleProfileMenu = () => setShowProfileMenu(!showProfileMenu);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleDownloadBill = () => {
     toast.success("Downloading Invoice...");
@@ -58,10 +59,10 @@ const MedicalShopDashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br bg-neutral-500 p-6 text-black">
+    <div className="min-h-screen bg-gradient-to-br from-teal-100 via-cyan-100 to-blue-200 p-6 text-black">
       <Toaster />
       <div className="max-w-7xl mx-auto space-y-8">
-      <header className="bg-neutral-600 p-4 flex justify-between items-center rounded-lg shadow-md">
+      <header className="bg-blue-900 p-4 flex justify-between items-center rounded-lg shadow-md">
   <h1 className="text-white text-3xl font-bold">Medical Shop Dashboard</h1>
   <nav className="flex space-x-4">
     <button onClick={toggleMenu} className="text-white text-2xl md:hidden">
@@ -70,7 +71,7 @@ const MedicalShopDashboard = () => {
     <ul className={`${menuOpen ? "block" : "hidden"} md:flex md:items-center md:space-x-6`}>
       <li>
         <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-          Invoice Generation
+          <a href="/Invoices">Invoice Management</a>
         </button>
       </li>
       <li>
@@ -102,7 +103,7 @@ const MedicalShopDashboard = () => {
         <FaUser />
       </button>
       {showProfileMenu && (
-        <div className="absolute right-0 mt-2 bg-neutral-200 shadow-lg rounded-lg p-4 w-48">
+        <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg p-4 w-48">
           <ul>
             <li>
               <button className="py-2 px-4 w-full text-gray-700 hover:bg-gray-200 text-left">
@@ -131,10 +132,10 @@ const MedicalShopDashboard = () => {
 </header>
 
 
-        {/* Main Content */}
+   
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Customer Details */}
-          <section className="bg-neutral-200 p-6 rounded-lg shadow-md">
+          
+          <section className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold text-blue-800 mb-4">Your Details</h2>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
@@ -152,11 +153,11 @@ const MedicalShopDashboard = () => {
             </div>
           </section>
 
-         {/* Invoice Generation */}
-<section id="invoice" className="bg-neutral-200 p-6 rounded-lg shadow-md">
+         
+<section id="invoice" className="bg-white p-6 rounded-lg shadow-md">
   <h2 className="text-xl font-bold text-blue-800 mb-4">Invoice Generation</h2>
   
-  {/* Bill Number Input */}
+ 
   <div className="space-y-4 mb-6">
     <div className="flex flex-col">
       <label htmlFor="billNumber" className="text-gray-700 font-semibold mb-2">
@@ -171,9 +172,9 @@ const MedicalShopDashboard = () => {
     </div>
   </div>
 
-  {/* Buttons for Actions */}
+  
   <div className="flex gap-4">
-    {/* Make Payment Button */}
+    
     <button
       onClick={() => toast.success("Payment has been marked as done.")}
       className="bg-green-500 text-neutral-800 py-2 px-6 rounded-lg hover:bg-green-700 hover:text-white flex items-center justify-center w-full font-semibold"
@@ -181,7 +182,7 @@ const MedicalShopDashboard = () => {
       <BsCheckCircle className="mr-2" /> Make Payment
     </button>
     
-    {/* Generate Invoice Button */}
+    
     <button
       onClick={handleDownloadBill}
       className="bg-teal-500 text-neutral-800 py-2 px-6 rounded-lg hover:bg-teal-800 hover:text-white flex items-center justify-center w-full"
@@ -192,8 +193,8 @@ const MedicalShopDashboard = () => {
 </section>
 
 
-          {/* Medicine Check */}
-          <section id="medicine-check" className="bg-neutral-200 p-6 rounded-lg shadow-md">
+         
+          <section id="medicine-check" className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold text-blue-800 mb-4">Medicine Check</h2>
             <div className="flex items-center">
               <FaPills className="text-purple-500 text-xl mr-2" />
@@ -210,11 +211,10 @@ const MedicalShopDashboard = () => {
             </div>
           </section>
 
-         {/* Staff Management */}
-<section id="staff-management" className="bg-neutral-200 p-6 rounded-lg shadow-md">
+<section id="staff-management" className="bg-white p-6 rounded-lg shadow-md">
   <h2 className="text-xl font-bold text-blue-800 mb-4">Staff Management</h2>
   
-  {/* Staff Management Options */}
+
   <div className="space-y-4 mb-6">
     
     <div className="flex items-center gap-3">
@@ -223,7 +223,6 @@ const MedicalShopDashboard = () => {
     </div>
   </div>
 
-  {/* Staff Form */}
   <div className="space-y-4 mb-6">
     <div className="flex flex-col">
       <label htmlFor="name" className="text-gray-700 font-semibold mb-2">Name</label>
@@ -272,15 +271,15 @@ const MedicalShopDashboard = () => {
   </div>
   
 
-  {/* Button to Add Staff */}
+
   <button className="w-full bg-green-500 text-neutral-800 py-2 rounded-lg hover:bg-green-600 transition duration-200 flex items-center justify-center">
     <FaUserPlus className="mr-2" /> Add Staff
   </button>
 </section>
 
 
-          {/* Attendance Management */}
-          <section id="attendance-management" className="bg-neutral-200 p-6 rounded-lg shadow-md">
+         
+          <section id="attendance-management" className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold text-blue-800 mb-4">Staff Attendance</h2>
             
             <div className="space-y-4">
@@ -309,8 +308,8 @@ const MedicalShopDashboard = () => {
             </div>
           </section>
 
-          {/* Calendar */}
-          <section id="calendar" className="bg-neutral-200 p-6 rounded-lg shadow-md">
+         
+          <section id="calendar" className="bg-white p-6 rounded-lg shadow-md">
   <h2 className="text-xl font-bold text-blue-800 mb-4">Calendar</h2>
   <Calendar
     value={currentDate}
@@ -323,11 +322,10 @@ const MedicalShopDashboard = () => {
     }
   />
 
-  {/* Events Below Calendar */}
   <div className="mt-2 space-y-4">
     <h3 className="text-sm font-semibold text-blue-800">Upcoming Events</h3>
 
-    {/* Event 1 */}
+    
     <div className="bg-gray-100 p-4 rounded-lg shadow-md text-sm">
       <h4 className="font-semibold text-blue-800">Staff Meeting</h4>
       <p className="text-gray-700">Date: December 1, 2024</p>
@@ -335,19 +333,13 @@ const MedicalShopDashboard = () => {
       <p className="text-gray-600">Description: Monthly staff meeting to discuss goals, issues, and improvements.</p>
     </div>
 
-    {/* Event 2
-    <div className="bg-gray-100 p-4 rounded-lg shadow-md text-sm">
-      <h4 className="font-semibold text-blue-800">Inventory Check</h4>
-      <p className="text-gray-700">Date: December 5, 2024</p>
-      <p className="text-gray-600">Time: 2:00 PM</p>
-      <p className="text-gray-600">Description: Routine inventory check to ensure stock levels are accurate.</p>
-    </div> */}
+   
   </div>
 </section>
 
 
-          {/* Additional Quick Actions */}
-          <section className="bg-neutral-200 p-6 rounded-lg shadow-md col-span-1 md:col-span-2">
+         
+          <section className="bg-white p-6 rounded-lg shadow-md col-span-1 md:col-span-2">
             <h2 className="text-xl font-bold text-blue-800 mb-4">Quick Actions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <button className="bg-blue-500 text-neutral-800 py-2 px-4 rounded-lg hover:bg-blue-600 flex items-center justify-center">
