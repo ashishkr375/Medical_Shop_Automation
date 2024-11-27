@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { FaPlus, FaSave, FaBars ,FaUser , FaCalendarAlt,FaEnvelope ,FaCity, FaPhoneAlt, FaAddressBook, FaUserAlt } from 'react-icons/fa';
-
+import { signOut } from "next-auth/react";
+import Header from '@/components/Header';
 export default function Invoices() {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -74,74 +75,7 @@ export default function Invoices() {
 
   return (
     <div className="container mx-auto p-8 min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-blue-100">
-     <header className="bg-blue-900 max-w-7xl p-4 flex justify-between items-center rounded-lg shadow-md mx-auto">
-  <h1 className="text-white text-3xl font-bold"><a href='/dashboard'>Medical Shop Dashboard</a></h1>
-  <nav className="flex space-x-4">
-    <button onClick={toggleMenu} className="text-white text-2xl md:hidden">
-      <FaBars />
-    </button>
-    <ul className={`${menuOpen ? "block" : "hidden"} md:flex md:items-center md:space-x-6`}>
-      <li>
-        <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-          <a href="/Invoices">Invoice Management</a>
-        </button>
-      </li>
-      <li>
-        <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-          Medicine Check
-        </button>
-      </li>
-      <li>
-        <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-          Alternative Medicine Prediction
-        </button>
-      </li>
-      <li>
-        <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-          Stock Management
-        </button>
-      </li>
-      <li>
-        <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-          Staff Management
-        </button>
-      </li>
-      
-    </ul>
-
-    
-    <div className="relative my-auto ">
-      <button onClick={toggleProfileMenu} className="text-white text-2xl">
-        <FaUser />
-      </button>
-      {showProfileMenu && (
-        <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg p-4 w-48">
-          <ul>
-            <li>
-              <button className="py-2 px-4 w-full text-gray-700 hover:bg-gray-200 text-left">
-                <a href="/profile">View Profile</a>
-                
-              </button>
-            </li>
-            <li>
-              <button className="py-2 px-4 w-full text-gray-700 hover:bg-gray-200 text-left">
-                Settings
-              </button>
-            </li>
-            <li>
-              <button
-                className="py-2 px-4 w-full text-gray-700 hover:bg-gray-200 text-left"
-                onClick={() => signOut()}
-              >
-                Log Out
-              </button>
-            </li>
-          </ul>
-        </div>
-      )}
-    </div>
-  </nav>
-</header>
+     <Header/>
       <div className="mb-8 text-center pt-5">
         <h1 className="text-4xl font-bold text-teal-800 mb-4">Invoices</h1>
         <p className="text-lg text-gray-600">Manage and view all your invoices</p>

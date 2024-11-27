@@ -1,28 +1,38 @@
+// models/Medicine.js
+
 import mongoose from 'mongoose';
 
-const MedicineSchema = new mongoose.Schema({
+const MedicineSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
+      unique: true,
     },
-    category: {
-        type: String,
-        enum: ['OTC', 'Prescription', 'Controlled'],
-        required: true,
+    description: {
+      type: String,
+      required: true,
     },
-    stockLevel: {
-        type: Number,
-        required: true,
-        default: 0,
+    quantity: {
+      type: Number,
+      required: true,
+      default: 0,
     },
-    expirationDate: {
-        type: Date,
-        required: true,
+    price: {
+      type: Number,
+      required: true,
+    },
+    expiryDate: {
+      type: Date,
+      required: true,
     },
     createdAt: {
-        type: Date,
-        default: Date.now,
+      type: Date,
+      default: Date.now,
     },
-});
+  },
+  { timestamps: true }
+);
 
-export default mongoose.model('Medicine', MedicineSchema);
+const Medicine = mongoose.models.Medicine || mongoose.model('Medicine', MedicineSchema);
+export default Medicine;

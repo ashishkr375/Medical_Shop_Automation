@@ -1,49 +1,61 @@
-import { connectMongoDB } from "@/lib/mongodb";
-import Medicine from "@/models/stock";
+// pages/api/medicines/index.js
 
-// Connect to the database before handling any requests
-async function connectDB() {
-  await connectMongoDB();
-}
+import { connectMongoDB } from "@/lib/mongodb"; // Database connection
+import Medicine from "@/models/Medicine"; // Medicine model
+import { NextResponse } from "next/server";
 
-// Handle GET requests: Fetch all medicines
-export async function GET(req) {
-  await connectDB();
+// POST method to add a new medicine
+export const POST = async (req) => {
+  const { name, description, quantity, price, expiryDate } = await req.json();
 
   try {
-    const medicines = await Medicine.find();
-    return new Response(JSON.stringify({ success: true, data: medicines }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
+    // Connect to MongoDB
+    await connectMongoDB();
+
+    // Create a new medicine document
+    const medicine = await Medicine.create({
+      name,
+      description,
+      quantity,
+      price,
+      expiryDate,
+      createdAt: new Date(),
+    });
+
+    // Return the response
+    return NextResponse.json({
+      success: true,
+      medicine,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ success: false, error: error.message }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    // Handle errors
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+      },
+      { status: 500 }
+    );
   }
-}
+};
 
-// Handle POST requests: Add a new medicine
-export async function POST(req) {
-  await connectDB();
-
+// pages/api/medicines/index.js (GET method)
+export const GET = async () => {
   try {
-    const body = await req.json(); // Parse JSON body
-    const medicine = await Medicine.create(body);
-    return new Response(JSON.stringify({ success: true, data: medicine }), {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
+    await connectMongoDB();
+    const medicines = await Medicine.find(); // This should return an array of medicines
+
+    return NextResponse.json({
+      success: true,
+      medicines, // Make sure this is an array
     });
   } catch (error) {
-    return new Response(JSON.stringify({ success: false, error: error.message }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+      },
+      { status: 500 }
+    );
   }
-}
-
-// Handle unsupported methods
-export function OPTIONS() {
-  return new Response("Method Not Allowed", { status: 405 });
-}
+};

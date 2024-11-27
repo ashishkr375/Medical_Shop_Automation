@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { FaPlus, FaSave, FaBars, FaUserAlt, FaEnvelope, FaPhoneAlt, FaAddressBook } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react'; 
-
+import { signOut } from "next-auth/react";
+import Header from '@/components/Header';
 export default function Invoice() {
   const [items, setItems] = useState([]);
   const { data: session } = useSession();
@@ -113,41 +114,7 @@ export default function Invoice() {
 
   return (
     <div className="min-h-screen bg-gray-50 items-center justify-center p-6 mx-auto bg-gradient-to-br from-teal-100 via-cyan-100 to-blue-200">
-      <header className="bg-blue-900 max-w-7xl p-4 flex justify-between items-center rounded-lg shadow-md mx-auto">
-        <h1 className="text-white text-3xl font-bold"><a href='/dashboard'>Medical Shop Dashboard</a></h1>
-        <nav className="flex space-x-4">
-          <button onClick={toggleMenu} className="text-white text-2xl md:hidden">
-            <FaBars />
-          </button>
-          <ul className={`${menuOpen ? "block" : "hidden"} md:flex md:items-center md:space-x-6`}>
-            <li>
-              <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-                <a href="/Invoices">Invoice Management</a>
-              </button>
-            </li>
-            <li>
-              <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-                Medicine Check
-              </button>
-            </li>
-            <li>
-              <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-                Alternative Medicine Prediction
-              </button>
-            </li>
-            <li>
-              <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-                Stock Management
-              </button>
-            </li>
-            <li>
-              <button className="text-white py-2 px-4 rounded-lg hover:bg-blue-500 focus:outline-none transition duration-300 border-2 border-red-200">
-                Staff Management
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header/>
 
       <div className="w-full max-w-6xl bg-white p-8 rounded-lg shadow-xl mx-auto mt-5">
         <h1 className="text-4xl font-bold text-teal-800 mb-8 text-center">Invoice Generator</h1>
