@@ -53,16 +53,16 @@ export default function Invoice() {
 
   const updateTotal = () => {
     const itemTotal = items.reduce((sum, item) => sum + item.total, 0);
-    const discount = (itemTotal * discountPercentage) / 100;
+    const discount = (itemTotal * discountPercentage) / 100;  // Fix discount calculation
     const totalWithDiscount = itemTotal - discount;
-
-    setDiscountAmount(discount);
-    setNetAmount(totalWithDiscount);
-    setTotalAmount(itemTotal);
+  
+    setDiscountAmount(discount);     // Update discount amount
+    setNetAmount(totalWithDiscount); // Update total after discount
+    setTotalAmount(itemTotal);      // Update original total (before discount)
   };
-
+  
   const handleDiscountChange = (e) => {
-    const newDiscount = parseFloat(e.target.value);
+    const newDiscount = e.target.value;
     setDiscountPercentage(newDiscount);
     
     // Recalculate total only if there's a change in discount
@@ -283,22 +283,22 @@ export default function Invoice() {
           />
         </div>
         </div>
-
+        
         {/* Summary */}
         <div className="mb-6">
           <h3 className="text-2xl font-semibold text-teal-800 mb-4">Invoice Summary</h3>
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
             <div className="col-span-2">
               <p className="font-medium text-gray-700">Total Amount:</p>
-              <p className="font-semibold text-lg text-teal-700">{`$${totalAmount.toFixed(2)}`}</p>
+              <p className="font-semibold text-lg text-teal-700">{`₹ ${totalAmount.toFixed(2)}`}</p>
             </div>
             <div className="col-span-2">
               <p className="font-medium text-gray-700">Discount Amount:</p>
-              <p className="font-semibold text-lg text-green-500">{`$${discountAmount.toFixed(2)}`}</p>
+              <p className="font-semibold text-lg text-green-500">{`₹ ${discountAmount.toFixed(2)}`}</p>
             </div>
             <div className="col-span-2">
               <p className="font-medium text-gray-700">Net Amount:</p>
-              <p className="font-semibold text-lg text-teal-700">{`$${netAmount.toFixed(2)}`}</p>
+              <p className="font-semibold text-lg text-teal-700">{`₹ ${netAmount.toFixed(2)}`}</p>
             </div>
           </div>
         </div>
