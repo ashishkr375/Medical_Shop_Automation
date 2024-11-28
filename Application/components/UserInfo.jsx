@@ -13,8 +13,6 @@ import Header from "./Header";
 const MedicalShopDashboard = () => {
   const { data: session } = useSession();
   const [currentDate, setCurrentDate] = useState(new Date());
-  
-  
   const [staff, setStaff] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,7 +32,6 @@ const MedicalShopDashboard = () => {
   };
 
   useEffect(() => {
-    
     setStaff([
       { id: 1, name: "Ravi Kumar", position: "Pharmacist" },
       { id: 2, name: "Priya Sharma", position: "Manager" },
@@ -44,7 +41,6 @@ const MedicalShopDashboard = () => {
       { id: 6, name: "Neha Singh", position: "Cleaner" },
       { id: 7, name: "Rahul Sharma", position: "Pharmacist" },
       { id: 8, name: "Priya Singh", position: "Manager" },
-      
     ]);
     setAttendance([
       { staffId: 1, status: "Present" },
@@ -55,10 +51,100 @@ const MedicalShopDashboard = () => {
       { staffId: 6, status: "Present" },
       { staffId: 7, status: "Present" },
       { staffId: 8, status: "Absent" },
-      
     ]);
   }, []);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [medicines, setMedicines] = useState([]);
+  const [filteredMedicines, setFilteredMedicines] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchMedicines = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch('/api/medicines');
+        const data = await res.json();
+
+        if (data.success && Array.isArray(data.medicines)) {
+          setMedicines(data.medicines);
+          setFilteredMedicines(data.medicines);
+        } else {
+          console.error('Error fetching medicines:', data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch medicines:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMedicines();
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setFilteredMedicines(medicines);
+    } else {
+      const filtered = medicines.filter((medicine) =>
+        medicine.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredMedicines(filtered);
+    }
+  }, [searchQuery, medicines]);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const [invoices, setInvoices] = useState([]);
+  const [filteredInvoices, setFilteredInvoices] = useState([]);
+  const [searchQueryInv, setSearchQueryInv] = useState("");
+  const [loadingInv, setLoadingInv] = useState(false);
+
+  useEffect(() => {
+    const fetchInvoices = async () => {
+      setLoadingInv(true);
+      try {
+        const res = await fetch("/api/invoices");
+        const data = await res.json();
+
+        if (data.success) {
+          setInvoices(data.invoices);
+          setFilteredInvoices(data.invoices);
+        } else {
+          console.error("Error fetching invoices:", data.message);
+        }
+      } catch (error) {
+        console.error("Failed to fetch invoices:", error);
+      } finally {
+        setLoadingInv(false);
+      }
+    };
+
+    fetchInvoices();
+  }, []);
+
+  useEffect(() => {
+    if (searchQueryInv.trim() === "") {
+      setFilteredInvoices(invoices);
+    } else {
+      const filtered = invoices.filter((invoice) =>
+        invoice.customer.customerName.toLowerCase().includes(searchQueryInv.toLowerCase())
+      );
+      setFilteredInvoices(filtered);
+    }
+  }, [searchQueryInv, invoices]);
+
+  const handleSearchChangeInvoice = (e) => {
+    setSearchQueryInv(e.target.value);
+  };
+
+  const handlePayment = () => {
+    toast.success("Payment has been marked as done.");
+  };
+
+ 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-100 via-cyan-100 to-blue-200 p-6 text-black">
       <Toaster />
@@ -87,63 +173,105 @@ const MedicalShopDashboard = () => {
             </div>
           </section>
 
-         
-<section id="invoice" className="bg-white p-6 rounded-lg shadow-md">
-  <h2 className="text-xl font-bold text-blue-800 mb-4">Invoice Generation</h2>
-  
- 
-  <div className="space-y-4 mb-6">
-    <div className="flex flex-col">
-      <label htmlFor="billNumber" className="text-gray-700 font-semibold mb-2">
-        Enter Bill Number
-      </label>
-      <input
-        id="billNumber"
-        type="text"
-        placeholder="Enter Bill No."
-        className="w-full  py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-      />
-    </div>
-  </div>
+          <section id="invoice" className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold text-blue-800 mb-4">Invoice Generation</h2>
 
-  
-  <div className="flex gap-4">
-    
-    <button
-      onClick={() => toast.success("Payment has been marked as done.")}
-      className="bg-green-500 text-neutral-800 py-2 px-6 rounded-lg hover:bg-green-700 hover:text-white flex items-center justify-center w-full font-semibold"
-    >
-      <BsCheckCircle className="mr-2" /> Make Payment
-    </button>
-    
-    
-    <button
-      onClick={handleDownloadBill}
-      className="bg-teal-500 text-neutral-800 py-2 px-6 rounded-lg hover:bg-teal-800 hover:text-white flex items-center justify-center w-full"
-    >
-      <FaFileDownload className="mr-2" /> Generate Invoice
-    </button>
-  </div>
-</section>
-
-
-         
-          <section id="medicine-check" className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-bold text-blue-800 mb-4">Medicine Check</h2>
-            <div className="flex items-center">
-              <FaPills className="text-purple-500 text-xl mr-2" />
-              <input
-                type="text"
-                placeholder="Search Medicine"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
+            <div className="space-y-4 mb-6">
+              <div className="flex flex-col">
+                <label htmlFor="customerName" className="text-gray-700 font-semibold mb-2">
+                  Search by Customer Name
+                </label>
+                <input
+                  id="customerName"
+                  type="text"
+                  placeholder="Search Customer"
+                  value={searchQueryInv}
+                  onChange={handleSearchChangeInvoice}
+                  className="w-full py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
             </div>
-            <div className="mt-4">
-              <button className="w-full bg-purple-500 text-neutral-800 py-2 rounded-lg hover:bg-purple-600 transition duration-200 flex items-center justify-center">
-                <FaSearch className="mr-2" /> Search
+
+            <div className="flex gap-4 mb-6 h-9 text-xs">
+              <button
+                onClick={handlePayment}
+                className="bg-green-500 text-neutral-800 py-1 px-6 rounded-lg hover:bg-green-700 hover:text-white flex items-center justify-center w-full font-semibold"
+              >
+                <BsCheckCircle className="mr-2 text-xs" /> Make Payment
+              </button>
+
+              <button
+                onClick={handleDownloadBill}
+                className="bg-teal-500 text-neutral-800 py-1 px-6 rounded-lg hover:bg-teal-800 hover:text-white flex items-center justify-center w-full"
+              >
+                <FaFileDownload className="mr-2 text-xs" /> Generate Invoice
               </button>
             </div>
+
+            <div className="space-y-4 h-56 overflow-y-auto">
+              {loadingInv ? (
+                <p>Loading invoices...</p>
+              ) : (
+                filteredInvoices.length > 0 ? (
+                  filteredInvoices.map((invoice) => (
+                    <div key={invoice._id} className="border p-4 rounded-lg shadow-sm bg-gray-50">
+                      <h3 className="text-sm font-semibold text-blue-800">{invoice.customer.customerName}</h3>
+                      <p className="text-xs">Email: {invoice.customer.email}</p>
+                      <p className="text-xs">Phone: {invoice.customer.phoneNumber}</p>
+                      <p className="text-xs">Total Amount: ₹ {invoice.totalAmount}</p>
+                      <p className="text-xs">Due Date: {new Date(invoice.dueDate).toLocaleDateString()}</p>
+                      <p className="text-xs">Payment Status: {invoice.paymentStatus}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No invoices found for this customer.</p>
+                )
+              )}
+            </div>
           </section>
+
+<section id="medicine-check" className="bg-white p-6 rounded-lg shadow-md ">
+      <h2 className="text-xl font-bold text-blue-800 mb-4">Medicine Check</h2>
+      <div className="flex items-center mb-4">
+        <FaPills className="text-purple-500 text-xl mr-2" />
+        <input
+          type="text"
+          placeholder="Search Medicine"
+          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+      </div>
+      
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="mt-4">
+          <button className="w-full bg-purple-500 text-neutral-800 py-2 rounded-lg hover:bg-purple-600 transition duration-200 flex items-center justify-center">
+            <FaSearch className="mr-2" /> Search
+          </button>
+        </div>
+      )}
+
+      {/* Display filtered medicine list */}
+      <div className="mt-6 h-60 overflow-y-auto">
+        {filteredMedicines.length > 0 ? (
+          <ul className="space-y-4">
+            {filteredMedicines.map((medicine) => (
+              <li key={medicine._id} className="border p-4 rounded-lg shadow-sm bg-gray-50">
+                <h3 className="text-sm font-semibold text-blue-800">{medicine.name}</h3>
+                <p className="text-xs">Description : {medicine.description}</p>
+                <p className="text-xs">Quantity: {medicine.quantity}</p>
+                <p className="text-xs">Price: ₹ {medicine.price}</p>
+                <p className="text-xs">Expiry Date: {new Date(medicine.expiryDate).toLocaleDateString()}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No medicines found matching your search.</p>
+        )}
+      </div>
+    </section>
 
 <section id="staff-management" className="bg-white p-6 rounded-lg shadow-md">
   <h2 className="text-xl font-bold text-blue-800 mb-4">Staff Management</h2>
