@@ -97,10 +97,10 @@ const MedicinesPage = () => {
   return (
     <div className="container mx-auto p-6 min-h-screen bg-gradient-to-br from-teal-100 via-cyan-100 to-blue-200">
        <Header />
-      <h1 className="text-4xl font-semibold text-center mb-6">Medicines</h1>
+      <h1 className="text-4xl font-semibold text-center mb-6 pt-5">Medicines</h1>
      
 
-      <div className="flex justify-center mb-4 pt-5">
+      <div className="flex justify-center mb-4 ">
         <button
           onClick={() => router.push('/Medicines/add')}
           className="bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-600 focus:outline-none"
