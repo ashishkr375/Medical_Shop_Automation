@@ -96,8 +96,9 @@ const MedicinesPage = () => {
 
   return (
     <div className="container mx-auto p-6 min-h-screen bg-gradient-to-br from-teal-100 via-cyan-100 to-blue-200">
+       <Header />
       <h1 className="text-4xl font-semibold text-center mb-6">Medicines</h1>
-      <Header />
+     
 
       <div className="flex justify-center mb-4 pt-5">
         <button
