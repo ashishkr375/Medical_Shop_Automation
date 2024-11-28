@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from 'react';
+import React,{ useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Header from '@/components/Header';
 
 const MedicinesPage = () => {
   const [medicines, setMedicines] = useState([]);
@@ -30,7 +31,6 @@ const MedicinesPage = () => {
     fetchMedicines();
   }, []);
 
-  
   const handleEditClick = (medicine) => {
     setEditingMedicine(medicine._id);
     setMedicineDetails({
@@ -41,7 +41,6 @@ const MedicinesPage = () => {
     });
   };
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setMedicineDetails((prevDetails) => ({
@@ -49,7 +48,6 @@ const MedicinesPage = () => {
       [name]: value,
     }));
   };
-
 
   const handleUpdate = async () => {
     try {
@@ -61,7 +59,6 @@ const MedicinesPage = () => {
       const data = await res.json();
 
       if (data.success) {
-       
         setMedicines((prevMedicines) =>
           prevMedicines.map((medicine) =>
             medicine._id === editingMedicine ? { ...medicine, ...medicineDetails } : medicine
@@ -75,7 +72,6 @@ const MedicinesPage = () => {
       console.error('Error updating medicine:', error);
     }
   };
-
 
   const handleDelete = async (id) => {
     try {
@@ -96,14 +92,14 @@ const MedicinesPage = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className="flex items-center justify-center h-screen bg-gradient-to-br from-teal-100 via-cyan-100 to-blue-200"> <p className="text-2xl animate-pulse">Loading...</p>;</div>
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 min-h-screen bg-gradient-to-br from-teal-100 via-cyan-100 to-blue-200">
       <h1 className="text-4xl font-semibold text-center mb-6">Medicines</h1>
+      <Header />
 
-     
-      <div className="flex justify-center mb-4">
+      <div className="flex justify-center mb-4 pt-5">
         <button
           onClick={() => router.push('/Medicines/add')}
           className="bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-600 focus:outline-none"
@@ -112,7 +108,7 @@ const MedicinesPage = () => {
         </button>
       </div>
 
-      <table className="table-auto w-full text-left shadow-lg rounded-lg overflow-hidden">
+      <table className="table-auto w-full text-left shadow-lg rounded-lg overflow-hidden bg-white">
         <thead className="bg-gray-800 text-white">
           <tr>
             <th className="px-6 py-4">Name</th>
@@ -125,28 +121,87 @@ const MedicinesPage = () => {
         <tbody>
           {medicines.length > 0 ? (
             medicines.map((medicine) => (
-              <tr key={medicine._id} className="border-t hover:bg-gray-100">
-                <td className="px-6 py-4">{medicine.name}</td>
-                <td className="px-6 py-4">{medicine.quantity}</td>
-                <td className="px-6 py-4">{medicine.price}</td>
-                <td className="px-6 py-4">
-                  {new Date(medicine.expiryDate).toLocaleDateString()}
-                </td>
-                <td className="px-6 py-4">
-                  <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-blue-600"
-                    onClick={() => handleEditClick(medicine)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                    onClick={() => handleDelete(medicine._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
+              <React.Fragment key={medicine._id}>
+                <tr className="border-t hover:bg-gray-100">
+                  <td className="px-6 py-4">{medicine.name}</td>
+                  <td className="px-6 py-4">{medicine.quantity}</td>
+                  <td className="px-6 py-4">{medicine.price}</td>
+                  <td className="px-6 py-4">
+                    {new Date(medicine.expiryDate).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-blue-600"
+                      onClick={() => handleEditClick(medicine)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                      onClick={() => handleDelete(medicine._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+
+                {/* Conditionally render the edit form directly under the medicine row */}
+                {editingMedicine === medicine._id && (
+                  <tr className="bg-gray-100">
+                    <td colSpan="5" className="px-6 py-4">
+                      <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+                        <h2 className="text-2xl font-semibold mb-4">Edit Medicine</h2>
+                        <div>
+                          <label className="block mb-2">Name</label>
+                          <input
+                            type="text"
+                            name="name"
+                            value={medicineDetails.name}
+                            onChange={handleInputChange}
+                            className="border p-3 w-full mb-4 rounded-lg shadow-sm"
+                          />
+                          <label className="block mb-2">Quantity</label>
+                          <input
+                            type="number"
+                            name="quantity"
+                            value={medicineDetails.quantity}
+                            onChange={handleInputChange}
+                            className="border p-3 w-full mb-4 rounded-lg shadow-sm"
+                          />
+                          <label className="block mb-2">Price</label>
+                          <input
+                            type="number"
+                            name="price"
+                            value={medicineDetails.price}
+                            onChange={handleInputChange}
+                            className="border p-3 w-full mb-4 rounded-lg shadow-sm"
+                          />
+                          <label className="block mb-2">Expiry Date</label>
+                          <input
+                            type="date"
+                            name="expiryDate"
+                            value={medicineDetails.expiryDate}
+                            onChange={handleInputChange}
+                            className="border p-3 w-full mb-4 rounded-lg shadow-sm"
+                          />
+                          <button
+                            className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600"
+                            onClick={handleUpdate}
+                          >
+                            Update
+                          </button>
+                          <button
+                            className="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-md ml-2 hover:bg-gray-600"
+                            onClick={() => setEditingMedicine(null)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             ))
           ) : (
             <tr>
@@ -157,58 +212,6 @@ const MedicinesPage = () => {
           )}
         </tbody>
       </table>
-
-      {editingMedicine && (
-        <div className="mt-6 p-6 bg-gray-100 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold mb-4">Edit Medicine</h2>
-          <div>
-            <label className="block mb-2">Name</label>
-            <input
-              type="text"
-              name="name"
-              value={medicineDetails.name}
-              onChange={handleInputChange}
-              className="border p-3 w-full mb-4 rounded-lg shadow-sm"
-            />
-            <label className="block mb-2">Quantity</label>
-            <input
-              type="number"
-              name="quantity"
-              value={medicineDetails.quantity}
-              onChange={handleInputChange}
-              className="border p-3 w-full mb-4 rounded-lg shadow-sm"
-            />
-            <label className="block mb-2">Price</label>
-            <input
-              type="number"
-              name="price"
-              value={medicineDetails.price}
-              onChange={handleInputChange}
-              className="border p-3 w-full mb-4 rounded-lg shadow-sm"
-            />
-            <label className="block mb-2">Expiry Date</label>
-            <input
-              type="date"
-              name="expiryDate"
-              value={medicineDetails.expiryDate}
-              onChange={handleInputChange}
-              className="border p-3 w-full mb-4 rounded-lg shadow-sm"
-            />
-            <button
-              className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600"
-              onClick={handleUpdate}
-            >
-              Update
-            </button>
-            <button
-              className="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-md ml-2 hover:bg-gray-600"
-              onClick={() => setEditingMedicine(null)}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

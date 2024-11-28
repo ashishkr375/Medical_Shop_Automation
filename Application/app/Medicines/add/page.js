@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Header from '@/components/Header';
 
 const AddMedicinePage = () => {
   const [name, setName] = useState('');
@@ -30,8 +31,9 @@ const AddMedicinePage = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-4xl font-semibold text-center mb-6">Add New Medicine</h1>
+    <div className="container mx-auto p-6 min-h-screen bg-gradient-to-br from-teal-100 via-cyan-100 to-blue-200">
+      <Header/>
+      <h1 className="text-4xl font-semibold text-center mb-6 pt-5">Add New Medicine</h1>
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
         <div>
           <label className="block text-gray-600">Medicine Name</label>
@@ -88,7 +90,7 @@ const AddMedicinePage = () => {
           </button>
           <button
             type="button"
-            onClick={() => router.push('/medicines')}
+            onClick={() => router.push('/Medicines')}
             className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
           >
             Cancel

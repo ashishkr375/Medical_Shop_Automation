@@ -2,13 +2,12 @@ import { connectMongoDB } from "@/lib/mongodb";
 import Medicine from "@/models/Medicine";
 import { NextResponse } from "next/server";
 
-// GET method to fetch a single medicine by ID
+// GET handler
 export async function GET(req, { params }) {
-  const { id } = params; // Get the medicine ID from the URL params
-
+  const { id } = params;
   try {
-    await connectMongoDB(); // Connect to MongoDB
-    const medicine = await Medicine.findById(id); // Find the medicine by ID
+    await connectMongoDB();
+    const medicine = await Medicine.findById(id);
 
     if (!medicine) {
       return NextResponse.json(
@@ -26,19 +25,19 @@ export async function GET(req, { params }) {
   }
 }
 
-// PUT method to update medicine by ID
+// PUT handler
 export async function PUT(req, { params }) {
-  const { id } = params; // Get the medicine ID from the URL params
-  const { name, quantity, price, expiryDate } = await req.json(); // Get the new data from the request body
+  const { id } = params;
+  const { name, quantity, price, expiryDate } = await req.json();
 
   try {
-    await connectMongoDB(); // Connect to MongoDB
+    await connectMongoDB();
 
     const updatedMedicine = await Medicine.findByIdAndUpdate(
       id,
       { name, quantity, price, expiryDate },
       { new: true }
-    ); // Update the medicine in the DB
+    );
 
     if (!updatedMedicine) {
       return NextResponse.json(
@@ -56,14 +55,13 @@ export async function PUT(req, { params }) {
   }
 }
 
-// DELETE method to delete medicine by ID
+// DELETE handler
 export async function DELETE(req, { params }) {
-  const { id } = params; // Get the medicine ID from the URL params
+  const { id } = params;
 
   try {
-    await connectMongoDB(); // Connect to MongoDB
-
-    const deletedMedicine = await Medicine.findByIdAndDelete(id); // Delete the medicine from the DB
+    await connectMongoDB();
+    const deletedMedicine = await Medicine.findByIdAndDelete(id);
 
     if (!deletedMedicine) {
       return NextResponse.json(

@@ -34,7 +34,7 @@ const MedicalShopDashboard = () => {
   };
 
   useEffect(() => {
-    // Fetch staff data and attendance records
+    
     setStaff([
       { id: 1, name: "Ravi Kumar", position: "Pharmacist" },
       { id: 2, name: "Priya Sharma", position: "Manager" },
