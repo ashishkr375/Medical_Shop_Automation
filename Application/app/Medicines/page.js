@@ -1,15 +1,14 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // To redirect after actions like delete or edit
+import { useRouter } from 'next/navigation';
 
 const MedicinesPage = () => {
   const [medicines, setMedicines] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editingMedicine, setEditingMedicine] = useState(null); // To track which medicine is being edited
-  const [medicineDetails, setMedicineDetails] = useState({}); // To store edited values
+  const [editingMedicine, setEditingMedicine] = useState(null);
+  const [medicineDetails, setMedicineDetails] = useState({});
   const router = useRouter();
 
-  // Fetch medicines from the API
   useEffect(() => {
     const fetchMedicines = async () => {
       try {
@@ -31,9 +30,9 @@ const MedicinesPage = () => {
     fetchMedicines();
   }, []);
 
-  // Handle edit button click
+  
   const handleEditClick = (medicine) => {
-    setEditingMedicine(medicine._id); // Set the current medicine being edited
+    setEditingMedicine(medicine._id);
     setMedicineDetails({
       name: medicine.name,
       quantity: medicine.quantity,
@@ -42,7 +41,7 @@ const MedicinesPage = () => {
     });
   };
 
-  // Handle form input change (for editing)
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setMedicineDetails((prevDetails) => ({
@@ -51,7 +50,7 @@ const MedicinesPage = () => {
     }));
   };
 
-  // Update medicine in the database
+
   const handleUpdate = async () => {
     try {
       const res = await fetch(`/api/medicines/${editingMedicine}`, {
@@ -62,13 +61,13 @@ const MedicinesPage = () => {
       const data = await res.json();
 
       if (data.success) {
-        // Update the list after successful update
+       
         setMedicines((prevMedicines) =>
           prevMedicines.map((medicine) =>
             medicine._id === editingMedicine ? { ...medicine, ...medicineDetails } : medicine
           )
         );
-        setEditingMedicine(null); // Reset editing mode
+        setEditingMedicine(null);
       } else {
         console.error('Error updating medicine:', data.message);
       }
@@ -77,7 +76,7 @@ const MedicinesPage = () => {
     }
   };
 
-  // Delete a medicine
+
   const handleDelete = async (id) => {
     try {
       const res = await fetch(`/api/medicines/${id}`, {
@@ -102,8 +101,19 @@ const MedicinesPage = () => {
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-4xl font-semibold text-center mb-6">Medicines</h1>
-      <table className="table-auto w-full text-left">
-        <thead>
+
+     
+      <div className="flex justify-center mb-4">
+        <button
+          onClick={() => router.push('/Medicines/add')}
+          className="bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-600 focus:outline-none"
+        >
+          Add New Medicine Record
+        </button>
+      </div>
+
+      <table className="table-auto w-full text-left shadow-lg rounded-lg overflow-hidden">
+        <thead className="bg-gray-800 text-white">
           <tr>
             <th className="px-6 py-4">Name</th>
             <th className="px-6 py-4">Quantity</th>
@@ -115,7 +125,7 @@ const MedicinesPage = () => {
         <tbody>
           {medicines.length > 0 ? (
             medicines.map((medicine) => (
-              <tr key={medicine._id} className="border-t">
+              <tr key={medicine._id} className="border-t hover:bg-gray-100">
                 <td className="px-6 py-4">{medicine.name}</td>
                 <td className="px-6 py-4">{medicine.quantity}</td>
                 <td className="px-6 py-4">{medicine.price}</td>
@@ -124,13 +134,13 @@ const MedicinesPage = () => {
                 </td>
                 <td className="px-6 py-4">
                   <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-blue-600"
                     onClick={() => handleEditClick(medicine)}
                   >
                     Edit
                   </button>
                   <button
-                    className="bg-red-500 text-white px-4 py-2 rounded"
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
                     onClick={() => handleDelete(medicine._id)}
                   >
                     Delete
@@ -148,18 +158,17 @@ const MedicinesPage = () => {
         </tbody>
       </table>
 
-      {/* Edit Medicine Form */}
       {editingMedicine && (
-        <div className="mt-6">
-          <h2 className="text-2xl font-semibold">Edit Medicine</h2>
-          <div className="mt-4">
+        <div className="mt-6 p-6 bg-gray-100 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold mb-4">Edit Medicine</h2>
+          <div>
             <label className="block mb-2">Name</label>
             <input
               type="text"
               name="name"
               value={medicineDetails.name}
               onChange={handleInputChange}
-              className="border p-2 w-full mb-4"
+              className="border p-3 w-full mb-4 rounded-lg shadow-sm"
             />
             <label className="block mb-2">Quantity</label>
             <input
@@ -167,7 +176,7 @@ const MedicinesPage = () => {
               name="quantity"
               value={medicineDetails.quantity}
               onChange={handleInputChange}
-              className="border p-2 w-full mb-4"
+              className="border p-3 w-full mb-4 rounded-lg shadow-sm"
             />
             <label className="block mb-2">Price</label>
             <input
@@ -175,7 +184,7 @@ const MedicinesPage = () => {
               name="price"
               value={medicineDetails.price}
               onChange={handleInputChange}
-              className="border p-2 w-full mb-4"
+              className="border p-3 w-full mb-4 rounded-lg shadow-sm"
             />
             <label className="block mb-2">Expiry Date</label>
             <input
@@ -183,17 +192,17 @@ const MedicinesPage = () => {
               name="expiryDate"
               value={medicineDetails.expiryDate}
               onChange={handleInputChange}
-              className="border p-2 w-full mb-4"
+              className="border p-3 w-full mb-4 rounded-lg shadow-sm"
             />
             <button
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600"
               onClick={handleUpdate}
             >
               Update
             </button>
             <button
-              className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
-              onClick={() => setEditingMedicine(null)} // Cancel edit
+              className="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-md ml-2 hover:bg-gray-600"
+              onClick={() => setEditingMedicine(null)}
             >
               Cancel
             </button>

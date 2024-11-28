@@ -22,7 +22,7 @@ const AddMedicinePage = () => {
     });
 
     const data = await res.json();
-    if (res.status === 201) {
+    if (res.status === 200) {
       router.push('/Medicines');
     } else {
       alert('Failed to add medicine');
