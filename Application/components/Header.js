@@ -40,7 +40,7 @@ function Header() {
     </li>
     <li>
       <button className="text-white text-sm md:text-base py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out border-2 border-transparent border-blue-500">
-        Stock Management
+        <a href='/suppliers'>Stock Management</a>
       </button>
     </li>
     <li>
